@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Владислав Кныш](https://up.htmlacademy.ru/javascript/18/user/998749).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Вечканов](https://up.htmlacademy.ru/javascript/18/user/902303).
 
 ---
 
