@@ -13,38 +13,83 @@ for(var i = 1; i < 9; i++) {
   avatarNumber.push(number);
 }
 
-for (var a = 130; a < 631; i++) {
+for (var a = 130; a < 631; a++) {
   var numberY = a;
   locationYNumber.push(numberY);
 }
 
+var prices = [1000, 5000, 10000, 15000];
 
-function getGeneratedAdverts(authors, offers, locations) {
+// ['', ''] | boolean
+function getRandomItem(itemsArr, isDelited) {
+  var arrIndex = Math.floor(Math.random() * itemsArr.length); // 5
+  var randomValue = itemsArr[arrIndex]; // '5 string'
+  if (isDelited) {
+    itemsArr.splice(arrIndex, 1);
+  }
+  return randomValue;
+}
+
+function getArrayValues(itemsArr, count) {
+  // создаем новвый массив
+  var itemsArrCopy = itemsArr.slice();
+  var newArr = [];
+  for (var i = 0; i < count && itemsArrCopy.length; i++) {
+    var randomValue = getRandomItem(itemsArrCopy, true);
+    newArr.push(randomValue);
+  }
+  return newArr;
+}
+
+// avatarNumber[Math.floor(Math.random() * 8)]
+function getAvatarImgAddress(avatarNumber) {
+  var str = (avatarNumber < 10) ? '0' : '';
+  return 'img/avatars/user' + str + avatarNumber + '.png';
+}
+
+function getGeneratedAdvert() {
+  var rand = avatarNumber[Math.floor(Math.random() * 8)];
   return {
     author: {
-      avatar: 'img/avatars/user0' + avatarNumber[Math.floor(Math.random() * 8)] + '.png'
+      avatar: getAvatarImgAddress(rand)
     },
 
     offer: {
-      title: offers.title,
-      address:
-      price: offers.price,
-      type: offers.type[Math.floor(Math.random() * 4)],
-      rooms: offers.rooms,
-      guests: offers.guests,
-      checkin: offers.checkin[Math.floor(Math.random() * 3)],
-      checkout: offers.checkout[Math.floor(Math.random() * 3)],
-      features: offers.feautres[Math.floor(Math.random() * 6)],
-      description: offers.description,
-      photos: offers.photos[Math.floor(Math.random() * 3)]
+      title: '',
+      address: '',
+      price: getRandomItem(prices),
+      type: getRandomItem(OFFER_TYPES),
+      rooms: 1,
+      guests:  2,
+      checkin: getRandomItem(OFFER_CHECKINS),
+      checkout: getRandomItem(OFFER_CHECKOUTS),
+      features: getArrayValues(OFFER_FEATURES, 3),
+      description: '',
+      photos: ['']
     },
 
     location: {
-      x: locations.x,
-      y: locations.y[Math.floor(Math.random() * 500)],
+      x: 10,
+      y: 20,
     }
   };
 }
+
+/**
+ * func name
+ * @param {number} count - The title of the book.
+ * @return {Array}  -  dsgsdgsdgsdg
+ */
+function generateOffers(count) {
+  var tempAppr = [];
+  for (var i = 0; i < count; i++) {
+    tempAppr.push(getGeneratedAdvert());
+  }
+  return tempAppr;
+}
+
+console.log(generateOffers(3))
+
 
 var mapDialog = document.querySelector('.map');
 mapDialog.classList.remove('.map--faded');
