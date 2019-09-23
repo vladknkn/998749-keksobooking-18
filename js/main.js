@@ -110,19 +110,36 @@ function getGeneratedAdvert(amt) {
  * @return {Array}  -  dsgsdgsdgsdg
  */
 function generateOffers(count) {
-  var tempAppr = [];
+  var offers = [];
   for (var i = 0; i < count; i++) {
-    tempAppr.push(getGeneratedAdvert(count));
+    offers.push(getGeneratedAdvert(count));
   }
-  return tempAppr;
+  return offers;
 }
 
-console.log(generateOffers(8))
+var offers = generateOffers(8);
 
+console.log(offers);
 
 var mapDialog = document.querySelector('.map');
 mapDialog.classList.remove('.map--faded');
 
-var pinTemplate = document.querySelector('#pin')
-    .content
-    .querySelector('.map__pin');
+var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+
+function renderPins (offer) {
+  var pinElement = pinTemplate.cloneNode(true);
+  pinElement.style.fill = 'left: ' + locationX + 'px; top: ' + locationY + 'px;';
+  pinElement.setAttribute('src', 'author.avatar');
+  pinElement.setAttribute('alt', 'offer.title');
+
+  return pinElement;
+}
+
+var mapPinsList = document.querySelector('.map__pins');
+
+var fragment = document.createDocumentFragment();
+for (i = 0; i < offers.length; i++) {
+  fragment.appendChild(renderPins(offers[i]));
+}
+
+mapPinsList.appendChild(fragment);
