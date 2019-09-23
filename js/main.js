@@ -5,8 +5,17 @@ var OFFER_CHECKINS = ['12:00', '13:00', '14:00'];
 var OFFER_CHECKOUTS = ['12:00', '13:00', '14:00'];
 var OFFER_FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
 var OFFER_PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
-var avatarNumber = [];
+var avatarNumber = getAvatarArray();
+var locationX = getLocationX();
 var locationY = getLocationY();
+
+function getAvatarArray() {
+  var avatarNumber = [];
+  for(var i = 1; i < 9; i++) {
+    var number = i;
+    avatarNumber.push(number);
+  } return avatarNumber;
+}
 
 for(var i = 1; i < 9; i++) {
   var number = i;
@@ -22,6 +31,13 @@ function getRandomNumber(amount) {
 
 function getRandomNumbFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getLocationX() {
+  var map = document.querySelector('.map');
+  var width = map.clientWidth;
+  var locationX = getRandomNumber(width);
+  return locationX;
 }
 
 function getLocationY() {
@@ -56,6 +72,10 @@ function getAvatarImgAddress(avatarNumber) {
   return 'img/avatars/user' + str + avatarNumber + '.png';
 }
 
+function getAddress(locationX, locationY) {
+  return locationX + ', ' + locationY;
+}
+
 function getGeneratedAdvert(amt) {
   var rand = avatarNumber[getRandomNumber(amt)];
   return {
@@ -65,7 +85,7 @@ function getGeneratedAdvert(amt) {
 
     offer: {
       title: '',
-      address: '', locationY,
+      address: getAddress(locationX, locationY),
       price: getRandomItem(prices),
       type: getRandomItem(OFFER_TYPES),
       rooms: getRandomNumbFromInterval(1,5),
@@ -78,7 +98,7 @@ function getGeneratedAdvert(amt) {
     },
 
     location: {
-      x: 10,
+      x: locationX,
       y: locationY,
     }
   };
