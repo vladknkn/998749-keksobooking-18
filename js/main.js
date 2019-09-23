@@ -6,32 +6,41 @@ var OFFER_CHECKOUTS = ['12:00', '13:00', '14:00'];
 var OFFER_FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
 var OFFER_PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
 var avatarNumber = [];
-var locationYNumber = [];
+var locationY = getLocationY();
 
 for(var i = 1; i < 9; i++) {
   var number = i;
   avatarNumber.push(number);
 }
 
-for (var a = 130; a < 631; a++) {
-  var numberY = a;
-  locationYNumber.push(numberY);
-}
-
 var prices = [1000, 5000, 10000, 15000];
 
+function getRandomNumber(amount) {
+  var randomNumb = Math.floor(Math.random() * amount);
+  return randomNumb;
+}
+
+function getRandomNumbFromInterval(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getLocationY() {
+  var locationY = getRandomNumbFromInterval(130, 630);
+  return locationY;
+}
+
 // ['', ''] | boolean
-function getRandomItem(itemsArr, isDelited) {
-  var arrIndex = Math.floor(Math.random() * itemsArr.length); // 5
+function getRandomItem(itemsArr, isDeleted) {
+  var arrIndex = getRandomNumber(itemsArr.length); // 5
   var randomValue = itemsArr[arrIndex]; // '5 string'
-  if (isDelited) {
+  if (isDeleted) {
     itemsArr.splice(arrIndex, 1);
   }
   return randomValue;
 }
 
 function getArrayValues(itemsArr, count) {
-  // создаем новвый массив
+  // создаем новый массив
   var itemsArrCopy = itemsArr.slice();
   var newArr = [];
   for (var i = 0; i < count && itemsArrCopy.length; i++) {
@@ -47,8 +56,8 @@ function getAvatarImgAddress(avatarNumber) {
   return 'img/avatars/user' + str + avatarNumber + '.png';
 }
 
-function getGeneratedAdvert() {
-  var rand = avatarNumber[Math.floor(Math.random() * 8)];
+function getGeneratedAdvert(amt) {
+  var rand = avatarNumber[getRandomNumber(amt)];
   return {
     author: {
       avatar: getAvatarImgAddress(rand)
@@ -56,21 +65,21 @@ function getGeneratedAdvert() {
 
     offer: {
       title: '',
-      address: '',
+      address: '', locationY,
       price: getRandomItem(prices),
       type: getRandomItem(OFFER_TYPES),
-      rooms: 1,
-      guests:  2,
-      checkin: getRandomItem(OFFER_CHECKINS),
-      checkout: getRandomItem(OFFER_CHECKOUTS),
-      features: getArrayValues(OFFER_FEATURES, 3),
+      rooms: getRandomNumbFromInterval(1,5),
+      guests:  getRandomNumbFromInterval(1, 10),
+      checkin: getRandomItem(OFFER_CHECKINS, getRandomNumber(3)),
+      checkout: getRandomItem(OFFER_CHECKOUTS, getRandomNumber(3)),
+      features: getArrayValues(OFFER_FEATURES, getRandomNumber(6)),
       description: '',
-      photos: ['']
+      photos: getArrayValues(OFFER_PHOTOS, getRandomNumber(3))
     },
 
     location: {
       x: 10,
-      y: 20,
+      y: locationY,
     }
   };
 }
@@ -83,17 +92,17 @@ function getGeneratedAdvert() {
 function generateOffers(count) {
   var tempAppr = [];
   for (var i = 0; i < count; i++) {
-    tempAppr.push(getGeneratedAdvert());
+    tempAppr.push(getGeneratedAdvert(count));
   }
   return tempAppr;
 }
 
-console.log(generateOffers(3))
+console.log(generateOffers(8))
 
 
 var mapDialog = document.querySelector('.map');
 mapDialog.classList.remove('.map--faded');
 
-var similarWizardTemplate = document.querySelector('#pin')
+var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
