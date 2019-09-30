@@ -105,7 +105,7 @@ var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pi
 
 function renderPins (advert) {
   var pinElement = pinTemplate.cloneNode(true);
-  pinElement.style.fill = 'left: ' + advert.locationX + 'px; top: ' + advert.locationY + 'px;';
+  pinElement.style.fill = 'left: ' + advert.location.x + 'px; top: ' + advert.location.y + 'px;';
   pinElement.src = advert.author.avatar;
   pinElement.alt = advert.offer.title;
   return pinElement;
