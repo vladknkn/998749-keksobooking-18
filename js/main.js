@@ -90,24 +90,31 @@ function generateOffers(count) {
 
 var offers = generateOffers(8);
 
-var mapDialog = document.querySelector('.map');
-mapDialog.classList.remove('.map--faded');
+function activateApplication() {
+  var mapDialog = document.querySelector('.map');
+  mapDialog.classList.remove('map--faded');
+}
+
+activateApplication();
 
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-function renderPins(advert) {
+function getPin(advert) {
   var pinElement = pinTemplate.cloneNode(true);
-  pinElement.style.fill = 'left: ' + advert.location.x + 'px; top: ' + advert.location.y + 'px;';
-  pinElement.src = advert.author.avatar;
-  pinElement.alt = advert.offer.title;
+  var pinImage = pinElement.querySelector('img');
+  pinElement.style = 'left: ' + advert.location.x + 'px; top: ' + advert.location.y + 'px;';
+  pinImage.src = advert.author.avatar;
+  pinImage.alt = advert.offer.title;
   return pinElement;
 }
 
-var mapPinsList = document.querySelector('.map__pins');
-
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < offers.length; i++) {
-  fragment.appendChild(renderPins(offers[i]));
+function renderPins(offersArray) {
+  var mapPinsList = document.querySelector('.map__pins');
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < offersArray.length; i++) {
+    fragment.appendChild(getPin(offersArray[i]));
+  }
+  mapPinsList.appendChild(fragment);
 }
-mapPinsList.appendChild(fragment);
 
+renderPins(offers);
