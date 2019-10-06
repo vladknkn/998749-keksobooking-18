@@ -5,6 +5,7 @@ var OFFER_CHECKINS = ['12:00', '13:00', '14:00'];
 var OFFER_CHECKOUTS = ['12:00', '13:00', '14:00'];
 var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var OFFER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var ENTER_KEYCODE = 13;
 
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -90,13 +91,6 @@ function generateOffers(count) {
 
 var offers = generateOffers(8);
 
-function activateApplication() {
-  var mapDialog = document.querySelector('.map');
-  mapDialog.classList.remove('map--faded');
-}
-
-activateApplication();
-
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 function getPin(advert) {
@@ -117,4 +111,49 @@ function renderPins(offersArray) {
   mapPinsList.appendChild(fragment);
 }
 
-renderPins(offers);
+var adForm = document.querySelector('.ad-form');
+var fieldsets = adForm.querySelectorAll('fieldset');
+var isActive = false;
+var mapMainPin = document.querySelector('.map__pin--main');
+var mapFilter = document.querySelector('.map__filters');
+var mapFilterSelects = mapFilter.querySelectorAll('select');
+
+function setArrayAttribute(array, firstValue, secondValue) {
+  for (var i = 0; i < array.length; i++) {
+    array[i].setAttribute(firstValue, secondValue);
+  }
+}
+
+function deactivateApplication() {
+  setArrayAttribute(fieldsets, 'disabled', 'disabled');
+  setArrayAttribute(mapFilterSelects, 'disabled', 'disabled');
+}
+
+deactivateApplication();
+
+function removeArrayAttribute(array, value) {
+  for (var i = 0; i < array.length; i++) {
+    array[i].removeAttribute(value);
+  }
+}
+
+function activateApplication() {
+  var mapDialog = document.querySelector('.map');
+  mapDialog.classList.remove('map--faded');
+  removeArrayAttribute(fieldsets, 'disabled');
+  removeArrayAttribute(mapFilterSelects, 'disabled');
+  adForm.classList.remove('ad-form--disabled');
+  renderPins(offers);
+  isActive = true;
+  return isActive;
+}
+
+mapMainPin.addEventListener('mousedown', function () {
+  activateApplication();
+});
+
+mapMainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    activateApplication();
+  }
+});
