@@ -6,6 +6,9 @@ var OFFER_CHECKOUTS = ['12:00', '13:00', '14:00'];
 var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var OFFER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var ENTER_KEYCODE = 13;
+var MAIN_PIN_HEIGHT = 44;
+var MAIN_PIN_WIDTH = 40;
+var PIN_END_HEIGHT = 22;
 
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -156,4 +159,62 @@ mapMainPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     activateApplication();
   }
+});
+
+function fillAddressInput() {
+  var addressInput = adForm.querySelector('#address');
+  var pinEndX = (MAIN_PIN_WIDTH * 0.5) + PIN_END_HEIGHT;
+  var pinEndY = (MAIN_PIN_HEIGHT * 0.5) + PIN_END_HEIGHT;
+  var activeAddressValueX = mapMainPin.offsetLeft + pinEndX;
+  var activeAddressValueY = mapMainPin.offsetTop + pinEndY;
+  if (isActive) {
+    addressInput.value = activeAddressValueX + ', ' + activeAddressValueY;
+  } else {
+    addressInput.value = mapMainPin.offsetLeft + ', ' + mapMainPin.offsetTop;
+  }
+}
+
+fillAddressInput();
+
+mapMainPin.addEventListener('mousemove', function () {
+  fillAddressInput();
+});
+
+var houseType = adForm.querySelector('#type');
+
+function setMinPrices() {
+  var priceInput = adForm.querySelector('#price');
+  if (houseType.value === 'flat') {
+    priceInput.min = 1000;
+    priceInput.placeholder = 1000;
+  } else if (houseType.value === 'house') {
+    priceInput.min = 5000;
+    priceInput.placeholder = 5000;
+  } else if (houseType.value === 'palace') {
+    priceInput.min = 10000;
+    priceInput.placeholder = 10000;
+  } else {
+    priceInput.placeholder = 0;
+  }
+}
+
+var timeIn = adForm.querySelector('#timein');
+var timeOut = adForm.querySelector('#timeout');
+
+function setTime() {
+  if (timeIn.value === '12.00') {
+    timeOut.value = '12.00';
+  } else if (timeIn.value === '13.00') {
+    timeOut.value = '13.00';
+  } else if (timeIn.value === '14.00') {
+    timeOut.value = '14.00';
+  }
+}
+
+houseType.addEventListener('change', function () {
+  setMinPrices();
+});
+
+timeIn.addEventListener('change', function () {
+  setTime();
 });
