@@ -10,6 +10,7 @@ var MAIN_PIN_HEIGHT = 44;
 var MAIN_PIN_WIDTH = 40;
 var PIN_END_HEIGHT = 22;
 
+// Отрисовка пинов
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
@@ -114,6 +115,7 @@ function renderPins(offersArray) {
   mapPinsList.appendChild(fragment);
 }
 
+// Активация приложения
 var adForm = document.querySelector('.ad-form');
 var fieldsets = adForm.querySelectorAll('fieldset');
 var isActive = false;
@@ -161,6 +163,7 @@ mapMainPin.addEventListener('keydown', function (evt) {
   }
 });
 
+// Заполнение поля адреса
 function fillAddressInput() {
   var addressInput = adForm.querySelector('#address');
   var pinEndX = (MAIN_PIN_WIDTH * 0.5) + PIN_END_HEIGHT;
@@ -180,6 +183,7 @@ mapMainPin.addEventListener('mousemove', function () {
   fillAddressInput();
 });
 
+// Валидация поля цен
 var houseType = adForm.querySelector('#type');
 
 function setMinPrices() {
@@ -198,23 +202,56 @@ function setMinPrices() {
   }
 }
 
-var timeIn = adForm.querySelector('#timein');
-var timeOut = adForm.querySelector('#timeout');
-
-function setTime() {
-  if (timeIn.value === '12.00') {
-    timeOut.value = '12.00';
-  } else if (timeIn.value === '13.00') {
-    timeOut.value = '13.00';
-  } else if (timeIn.value === '14.00') {
-    timeOut.value = '14.00';
-  }
-}
-
 houseType.addEventListener('change', function () {
   setMinPrices();
 });
 
+// Валидация полей заезда и выезда
+var timeIn = adForm.querySelector('#timein');
+
+function disableTimeOptions() {
+  var timeOut = adForm.querySelector('#timeout');
+  var timeOutOptions = timeOut.querySelectorAll('option');
+  for (var i = 0; i < timeOutOptions.length; i++) {
+    if (timeIn.value !== timeOutOptions[i].value) {
+      timeOutOptions[i].setAttribute('disabled', 'disabled');
+    } else if (timeIn.value === timeOutOptions[i].value) {
+      timeOutOptions[i].removeAttribute('disabled');
+    }
+  }
+}
+
 timeIn.addEventListener('change', function () {
-  setTime();
+  disableTimeOptions();
+});
+
+// Валидация полей комнат и гостей
+var roomNumber = adForm.querySelector('#room_number');
+
+function disableGuestOptions() {
+  var capacity = adForm.querySelector('#capacity');
+  var capacityOptions = capacity.querySelectorAll('option');
+  for (var i = 0; i < capacityOptions.length; i++) {
+    if (roomNumber.value === '1' && capacityOptions[i].value !== '1') {
+      capacityOptions[i].setAttribute('disabled', 'disabled');
+    } else if (roomNumber.value === '2' && capacityOptions[i].value !== '1' && capacityOptions[i].value !== '2') {
+      capacityOptions[i].setAttribute('disabled', 'disabled');
+    } else if (roomNumber.value === '3' && capacityOptions[i].value === '0') {
+      capacityOptions[i].setAttribute('disabled', 'disabled');
+    } else if (roomNumber.value === '100' && capacityOptions[i].value !== '0') {
+      capacityOptions[i].setAttribute('disabled', 'disabled');
+    } else if (roomNumber.value === '1' && capacityOptions[i].value === '1') {
+      capacityOptions[i].removeAttribute('disabled');
+    } else if (roomNumber.value === '2' && capacityOptions[i].value === '1' || capacityOptions[i].value === '2') {
+      capacityOptions[i].removeAttribute('disabled');
+    } else if (roomNumber.value === '3' && capacityOptions[i].value !== '0') {
+      capacityOptions[i].removeAttribute('disabled');
+    } else if (roomNumber.value === '100' && capacityOptions[i].value === '0') {
+      capacityOptions[i].removeAttribute('disabled');
+    }
+  }
+}
+
+roomNumber.addEventListener('change', function () {
+  disableGuestOptions();
 });
