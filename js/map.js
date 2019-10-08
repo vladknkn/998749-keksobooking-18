@@ -20,7 +20,7 @@
       fragment.appendChild(getPin(offersArray[i]));
     }
     mapPinsList.appendChild(fragment);
-  }
+  };
 
   var ENTER_KEYCODE = 13;
   window.adForm = document.querySelector('.ad-form');
