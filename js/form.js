@@ -31,17 +31,21 @@
 
   function setMinPrices() {
     var priceInput = window.adForm.querySelector('#price');
-    if (window.houseType.value === 'flat') {
-      priceInput.min = 1000;
-      priceInput.placeholder = 1000;
-    } else if (window.houseType.value === 'house') {
-      priceInput.min = 5000;
-      priceInput.placeholder = 5000;
-    } else if (window.houseType.value === 'palace') {
-      priceInput.min = 10000;
-      priceInput.placeholder = 10000;
-    } else {
-      priceInput.placeholder = 0;
+    switch (window.houseType.value) {
+      case 'flat':
+        priceInput.min = 1000;
+        priceInput.placeholder = 1000;
+        break;
+      case 'house':
+        priceInput.min = 5000;
+        priceInput.placeholder = 5000;
+        break;
+      case 'palace':
+        priceInput.min = 10000;
+        priceInput.placeholder = 10000;
+        break;
+      default:
+        priceInput.placeholder = 0;
     }
   }
 
