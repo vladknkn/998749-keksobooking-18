@@ -1,25 +1,31 @@
 'use strict';
 
 (function () {
-  // Рендер пинов
-  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+  var offers = [];
+  window.housingType = document.querySelector('#housing-type');
 
-  function getPin(offer) {
-    var pinElement = pinTemplate.cloneNode(true);
-    var pinImage = pinElement.querySelector('img');
-    pinElement.style = 'left: ' + offer.location.x + 'px; top: ' + offer.location.y + 'px;';
-    pinImage.src = offer.author.avatar;
-    pinImage.alt = offer.offer.title;
-    return pinElement;
+
+  function filterHouseType() {
+    var newOffers = offers.slice();
+    var filteredOffers = newOffers.filter(function (element) {
+      if (window.housingType.value !== 'any') {
+        return element.offer.type === window.housingType.value;
+      } else {
+        return newOffers;
+      }
+    });
+    return filteredOffers;
   }
 
-  function loadHandler(offers) {
-    var mapPinsList = document.querySelector('.map__pins');
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < offers.length; i++) {
-      fragment.appendChild(getPin(offers[i]));
-    }
-    mapPinsList.appendChild(fragment);
+  function updateOffers() {
+    var filteredOffersArray = filterHouseType();
+    window.renderPins(filteredOffersArray);
+  }
+
+  function loadHandler(data) {
+    offers = data;
+
+    updateOffers();
   }
 
   function errorHandler() {
@@ -27,6 +33,10 @@
     var errorElement = errorTemplate.cloneNode(true);
     document.body.appendChild(errorElement);
   }
+
+  window.housingType.addEventListener('change', function () {
+    updateOffers();
+  });
 
   // Активация приложения
   var ENTER_KEYCODE = 13;

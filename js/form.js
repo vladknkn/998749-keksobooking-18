@@ -27,25 +27,29 @@
   });
 
   // Валидация поля цен
-  var houseType = window.adForm.querySelector('#type');
+  window.houseType = window.adForm.querySelector('#type');
 
   function setMinPrices() {
     var priceInput = window.adForm.querySelector('#price');
-    if (houseType.value === 'flat') {
-      priceInput.min = 1000;
-      priceInput.placeholder = 1000;
-    } else if (houseType.value === 'house') {
-      priceInput.min = 5000;
-      priceInput.placeholder = 5000;
-    } else if (houseType.value === 'palace') {
-      priceInput.min = 10000;
-      priceInput.placeholder = 10000;
-    } else {
-      priceInput.placeholder = 0;
+    switch (window.houseType.value) {
+      case 'flat':
+        priceInput.min = 1000;
+        priceInput.placeholder = 1000;
+        break;
+      case 'house':
+        priceInput.min = 5000;
+        priceInput.placeholder = 5000;
+        break;
+      case 'palace':
+        priceInput.min = 10000;
+        priceInput.placeholder = 10000;
+        break;
+      default:
+        priceInput.placeholder = 0;
     }
   }
 
-  houseType.addEventListener('change', function () {
+  window.houseType.addEventListener('change', function () {
     setMinPrices();
   });
 
