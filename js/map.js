@@ -2,14 +2,14 @@
 
 (function () {
   var offers = [];
-  var housingType = document.querySelector('#housing-type');
+  window.housingType = document.querySelector('#housing-type');
 
 
   function filterHouseType() {
     var newOffers = offers.slice();
     var filteredOffers = newOffers.filter(function (element) {
-      if (housingType.value !== 'any') {
-        return element.offer.type === housingType.value;
+      if (window.housingType.value !== 'any') {
+        return element.offer.type === window.housingType.value;
       } else {
         return newOffers;
       }
@@ -34,7 +34,7 @@
     document.body.appendChild(errorElement);
   }
 
-  housingType.addEventListener('change', function () {
+  window.housingType.addEventListener('change', function () {
     updateOffers();
   });
 

@@ -13,8 +13,14 @@
   window.renderPins = function (offersArray) {
     var mapPinsList = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < 5; i++) {
-      fragment.appendChild(getPin(offersArray[i]));
+    if (window.housingType.value === 'any') {
+      for (var i = 0; i < 5; i++) {
+        fragment.appendChild(getPin(offersArray[i]));
+      }
+    } else {
+      for (i = 0; i < offersArray.length; i++) {
+        fragment.appendChild(getPin(offersArray[i]));
+      }
     }
     mapPinsList.innerHTML = '';
     mapPinsList.appendChild(fragment);
