@@ -23,6 +23,7 @@
       }
     }
     mapPinsList.innerHTML = '';
+    mapPinsList.appendChild(window.mapMainPin);
     mapPinsList.appendChild(fragment);
   };
 })();

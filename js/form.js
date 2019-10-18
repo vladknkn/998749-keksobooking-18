@@ -64,6 +64,7 @@
         timeOutOptions[i].setAttribute('disabled', 'disabled');
       } else if (timeIn.value === timeOutOptions[i].value) {
         timeOutOptions[i].removeAttribute('disabled');
+        timeOutOptions[i].selected = true;
       }
     }
   }
@@ -81,12 +82,16 @@
     for (var i = 0; i < capacityOptions.length; i++) {
       if (roomNumber.value === '1' && capacityOptions[i].value !== '1') {
         capacityOptions[i].setAttribute('disabled', 'disabled');
+        capacityOptions[2].selected = true;
       } else if (roomNumber.value === '2' && capacityOptions[i].value !== '1' && capacityOptions[i].value !== '2') {
         capacityOptions[i].setAttribute('disabled', 'disabled');
+        capacityOptions[1].selected = true;
       } else if (roomNumber.value === '3' && capacityOptions[i].value === '0') {
         capacityOptions[i].setAttribute('disabled', 'disabled');
+        capacityOptions[0].selected = true;
       } else if (roomNumber.value === '100' && capacityOptions[i].value !== '0') {
         capacityOptions[i].setAttribute('disabled', 'disabled');
+        capacityOptions[3].selected = true;
       } else if (roomNumber.value === '1' && capacityOptions[i].value === '1') {
         capacityOptions[i].removeAttribute('disabled');
       } else if (roomNumber.value === '2' && capacityOptions[i].value === '1' || capacityOptions[i].value === '2') {
@@ -99,7 +104,32 @@
     }
   }
 
+  disableGuestOptions();
+
   roomNumber.addEventListener('change', function () {
     disableGuestOptions();
+  });
+
+  var submitButton = window.adForm.querySelector('.ad-form__submit');
+  var resetButton = window.adForm.querySelector('.ad-form__reset');
+
+  function showSuccessMessage() {
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    var successElement = successTemplate.cloneNode(true);
+    document.body.appendChild(successElement);
+  }
+
+  function saveHandler() {
+    showSuccessMessage();
+    window.deactivateApplication();
+  }
+
+  submitButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    saveHandler();
+  });
+
+  resetButton.addEventListener('click', function () {
+    window.deactivateApplication();
   });
 })();

@@ -45,6 +45,7 @@
   var fieldsets = window.adForm.querySelectorAll('fieldset');
   var mapFilter = document.querySelector('.map__filters');
   var mapFilterSelects = mapFilter.querySelectorAll('select');
+  var mapDialog = document.querySelector('.map');
   var isActive = false;
 
   function setArrayAttribute(array, firstValue, secondValue) {
@@ -53,12 +54,16 @@
     }
   }
 
-  function deactivateApplication() {
+  window.deactivateApplication = function () {
     setArrayAttribute(fieldsets, 'disabled', 'disabled');
     setArrayAttribute(mapFilterSelects, 'disabled', 'disabled');
-  }
+    mapDialog.classList.add('map--faded');
+    window.adForm.classList.add('ad-form--disabled');
+    isActive = false;
 
-  deactivateApplication();
+  };
+
+  window.deactivateApplication();
 
   function removeArrayAttribute(array, value) {
     for (var i = 0; i < array.length; i++) {
@@ -67,7 +72,6 @@
   }
 
   function activateApplication() {
-    var mapDialog = document.querySelector('.map');
     mapDialog.classList.remove('map--faded');
     removeArrayAttribute(fieldsets, 'disabled');
     removeArrayAttribute(mapFilterSelects, 'disabled');
