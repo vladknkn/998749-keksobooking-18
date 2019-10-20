@@ -124,9 +124,9 @@
     window.deactivateApplication();
   }
 
-  submitButton.addEventListener('click', function (evt) {
+  window.adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    saveHandler();
+    window.save(new FormData(window.adForm), saveHandler, window.errorHandler);
   });
 
   resetButton.addEventListener('click', function () {
