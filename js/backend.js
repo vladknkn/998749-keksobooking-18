@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var LOAD_URL = 'https://js.dump.academy/keksobooking/data';
-  var SAVE_URL = '';
+  var SAVE_URL = 'https://js.dump.academy/keksobooking/multipart/form-data';
 
   window.load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();

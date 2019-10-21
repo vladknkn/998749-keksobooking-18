@@ -164,6 +164,21 @@
     window.mapPinsList.appendChild(window.mapMainPin);
   }
 
+  function filtersReset() {
+    var filterOptions = window.mapFilter.querySelectorAll('option');
+    for (var i = 0; i < filterOptions.length; i++) {
+      if (filterOptions[i].value === 'any') {
+        filterOptions[i].selected = true;
+      }
+    }
+
+    var housingFeatures = window.mapFilter.querySelector('#housing-features');
+    var housingFeaturesCheckboxes = housingFeatures.querySelectorAll('input');
+    for (i = 0; i < housingFeaturesCheckboxes.length; i++) {
+      housingFeaturesCheckboxes[i].checked = false;
+    }
+  }
+
   function toReset() {
     window.deactivateApplication();
     roomNumberReset();
@@ -173,6 +188,7 @@
     featuresReset();
     mainPinReset();
     pinsListReset();
+    filtersReset();
   }
 
   resetButton.addEventListener('click', function () {
