@@ -81,8 +81,6 @@
     return isActive;
   }
 
-
-
   window.mapMainPin.addEventListener('mousedown', function (evt) {
     activateApplication();
     var startCoords = {
@@ -90,7 +88,7 @@
       y: evt.clientY
     };
 
-    var onMouseMove = function (moveEvt) {
+    function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
 
       var shift = {
@@ -105,14 +103,14 @@
 
       window.mapMainPin.style.top = (window.mapMainPin.offsetTop - shift.y) + 'px';
       window.mapMainPin.style.left = (window.mapMainPin.offsetLeft - shift.x) + 'px';
-    };
+    }
 
-    var onMouseUp = function (upEvt) {
+    function onMouseUp(upEvt) {
       upEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-    };
+    }
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);

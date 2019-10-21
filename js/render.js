@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  window.mapPinsList = document.querySelector('.map__pins');
+
   function getPin(offer) {
     var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
     var pinElement = pinTemplate.cloneNode(true);
@@ -11,7 +13,7 @@
   }
 
   window.renderPins = function (offersArray) {
-    var mapPinsList = document.querySelector('.map__pins');
+
     var fragment = document.createDocumentFragment();
     if (window.housingType.value === 'any') {
       for (var i = 0; i < 5; i++) {
@@ -22,8 +24,8 @@
         fragment.appendChild(getPin(offersArray[i]));
       }
     }
-    mapPinsList.innerHTML = '';
-    mapPinsList.appendChild(window.mapMainPin);
-    mapPinsList.appendChild(fragment);
+    window.mapPinsList.innerHTML = '';
+    window.mapPinsList.appendChild(window.mapMainPin);
+    window.mapPinsList.appendChild(fragment);
   };
 })();

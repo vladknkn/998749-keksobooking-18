@@ -1,14 +1,28 @@
 'use strict';
 
 (function () {
+  // Валидация полей
+
   var MAIN_PIN_HEIGHT = 44;
   var MAIN_PIN_WIDTH = 40;
   var PIN_END_HEIGHT = 22;
+  var DEFAULT_PIN_X = 570;
+  var DEFAULT_PIN_Y = 375;
   var isActive = false;
+  window.houseType = window.adForm.querySelector('#type');
+  var priceInput = window.adForm.querySelector('#price');
+  var roomNumber = window.adForm.querySelector('#room_number');
+  var timeIn = window.adForm.querySelector('#timein');
+  var resetButton = window.adForm.querySelector('.ad-form__reset');
+  var titleInput = window.adForm.querySelector('#title');
+  var descriptionInput = window.adForm.querySelector('#description');
+  var features = window.adForm.querySelector('.features');
+  var featuresCheckboxes = features.querySelectorAll('input');
+  var addressInput = window.adForm.querySelector('#address');
 
   // Заполнение поля адреса
+
   function fillAddressInput() {
-    var addressInput = window.adForm.querySelector('#address');
     var pinEndX = (MAIN_PIN_WIDTH * 0.5) + PIN_END_HEIGHT;
     var pinEndY = (MAIN_PIN_HEIGHT * 0.5) + PIN_END_HEIGHT;
     var activeAddressValueX = window.mapMainPin.offsetLeft + pinEndX;
@@ -27,10 +41,8 @@
   });
 
   // Валидация поля цен
-  window.houseType = window.adForm.querySelector('#type');
 
   function setMinPrices() {
-    var priceInput = window.adForm.querySelector('#price');
     switch (window.houseType.value) {
       case 'flat':
         priceInput.min = 1000;
@@ -54,7 +66,6 @@
   });
 
   // Валидация полей заезда и выезда
-  var timeIn = window.adForm.querySelector('#timein');
 
   function disableTimeOptions() {
     var timeOut = window.adForm.querySelector('#timeout');
@@ -69,12 +80,13 @@
     }
   }
 
+  disableTimeOptions();
+
   timeIn.addEventListener('change', function () {
     disableTimeOptions();
   });
 
   // Валидация полей комнат и гостей
-  var roomNumber = window.adForm.querySelector('#room_number');
 
   function disableGuestOptions() {
     var capacity = window.adForm.querySelector('#capacity');
@@ -106,12 +118,68 @@
 
   disableGuestOptions();
 
+  // Сброс настроек
+
   roomNumber.addEventListener('change', function () {
     disableGuestOptions();
   });
 
-  var submitButton = window.adForm.querySelector('.ad-form__submit');
-  var resetButton = window.adForm.querySelector('.ad-form__reset');
+  function roomNumberReset() {
+    var roomNumberOptions = roomNumber.querySelectorAll('option');
+    roomNumberOptions[0].selected = true;
+    disableGuestOptions();
+  }
+
+  function timeReset() {
+    var timeInOptions = timeIn.querySelectorAll('option');
+    timeInOptions[0].selected = true;
+    disableTimeOptions();
+  }
+
+  function houseTypeReset() {
+    var houseTypeOptions = window.houseType.querySelectorAll('option');
+    houseTypeOptions[1].selected = true;
+  }
+
+  function textFieldsReset() {
+    priceInput.placeholder = 5000;
+    titleInput.value = '';
+    descriptionInput.value = '';
+  }
+
+  function featuresReset() {
+    for (var i = 0; i < featuresCheckboxes.length; i++) {
+      featuresCheckboxes[i].checked = false;
+    }
+  }
+
+  function mainPinReset() {
+    window.mapMainPin.style = 'left:' + DEFAULT_PIN_X + 'px; top: ' + DEFAULT_PIN_Y + 'px;';
+    addressInput.value = DEFAULT_PIN_X + ', ' + DEFAULT_PIN_Y;
+
+  }
+
+  function pinsListReset() {
+    window.mapPinsList.innerHTML = '';
+    window.mapPinsList.appendChild(window.mapMainPin);
+  }
+
+  function toReset() {
+    window.deactivateApplication();
+    roomNumberReset();
+    timeReset();
+    houseTypeReset();
+    textFieldsReset();
+    featuresReset();
+    mainPinReset();
+    pinsListReset();
+  }
+
+  resetButton.addEventListener('click', function () {
+    toReset();
+  });
+
+  // Отправка формы
 
   function showSuccessMessage() {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -129,7 +197,5 @@
     window.save(new FormData(window.adForm), saveHandler, window.errorHandler);
   });
 
-  resetButton.addEventListener('click', function () {
-    window.deactivateApplication();
-  });
+
 })();
