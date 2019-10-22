@@ -8,6 +8,7 @@
   var PIN_END_HEIGHT = 22;
   var DEFAULT_PIN_X = 570;
   var DEFAULT_PIN_Y = 375;
+  var ESC_KEYCODE = 27;
   var isActive = false;
   window.houseType = window.adForm.querySelector('#type');
   var priceInput = window.adForm.querySelector('#price');
@@ -213,5 +214,25 @@
     window.save(new FormData(window.adForm), saveHandler, window.errorHandler);
   });
 
+  function closeModal(modalClass) {
+    if (document.querySelector(modalClass) !== null) {
+      var modal = document.querySelector(modalClass);
+      modal.addEventListener('click', function () {
+        modal.classList.add('hidden');
+      });
+    }
+  }
+
+  document.body.addEventListener('click', function () {
+    closeModal('.success');
+    closeModal('.error');
+  });
+
+  document.body.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closeModal('.success');
+      closeModal('.error');
+    }
+  });
 
 })();
