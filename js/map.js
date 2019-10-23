@@ -1,10 +1,21 @@
 'use strict';
 
 (function () {
-  // Загрузка объявлений
+  // Функционал карты
 
-  var offers = [];
+  var ENTER_KEYCODE = 13;
+  window.ESC_KEYCODE = 27;
+  window.adForm = document.querySelector('.ad-form');
+  window.mapMainPin = document.querySelector('.map__pin--main');
+  window.mapFilter = document.querySelector('.map__filters');
   window.housingType = document.querySelector('#housing-type');
+  var fieldsets = window.adForm.querySelectorAll('fieldset');
+  var mapFilterSelects = window.mapFilter.querySelectorAll('select');
+  var mapDialog = document.querySelector('.map');
+  var isActive = false;
+  var offers = [];
+
+  // Загрузка объявлений
 
   function filterHouseType() {
     var newOffers = offers.slice();
@@ -15,6 +26,12 @@
         return newOffers;
       }
     });
+
+    filteredOffers = filteredOffers.map(function (offer, i) {
+      offer.id = i;
+      return offer;
+    });
+
     return filteredOffers;
   }
 
@@ -32,40 +49,30 @@
   window.errorHandler = function () {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
+    var errorButton = errorElement.querySelector('.error__button');
     document.body.appendChild(errorElement);
+
+    errorButton.addEventListener('click', function () {
+      window.load(loadHandler, window.errorHandler);
+    });
+
+    errorElement.addEventListener('click', function () {
+      errorElement.remove();
+    });
+
+    errorElement.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.ESC_KEYCODE) {
+        errorElement.remove();
+      }
+    });
+
   };
 
   window.housingType.addEventListener('change', function () {
     updateOffers();
   });
 
-  // Создание карточек
-
-  // function makeCards() {
-  //   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-  //   var cardElement = cardTemplate.cloneNode(true);
-  //   document.body.appendChild(cardElement);
-  // }
-
-  // var pins = document.querySelectorAll('.map__pin');
-  // pins.addEventListener('click', function () {
-  //   for (var i = 0; i < pins.length; i++) {
-  //     if (pins[i].classList.contains !== 'map__pin--main') {
-  //       makeCards();
-  //     }
-  //   }
-  // });
-
   // Активация приложения
-
-  var ENTER_KEYCODE = 13;
-  window.adForm = document.querySelector('.ad-form');
-  window.mapMainPin = document.querySelector('.map__pin--main');
-  var fieldsets = window.adForm.querySelectorAll('fieldset');
-  window.mapFilter = document.querySelector('.map__filters');
-  var mapFilterSelects = window.mapFilter.querySelectorAll('select');
-  var mapDialog = document.querySelector('.map');
-  var isActive = false;
 
   function setArrayAttribute(array, firstValue, secondValue) {
     for (var i = 0; i < array.length; i++) {
@@ -123,6 +130,11 @@
 
       window.mapMainPin.style.top = (window.mapMainPin.offsetTop - shift.y) + 'px';
       window.mapMainPin.style.left = (window.mapMainPin.offsetLeft - shift.x) + 'px';
+
+      if (window.mapMainPin.style.left === '630px' || window.mapMainPin.style.left === '130px') {
+        document.removeEventListener('mousemove', onMouseMove);
+      }
+
     }
 
     function onMouseUp(upEvt) {
@@ -134,6 +146,11 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+
+    mapDialog.addEventListener('mouseout', function () {
+      document.removeEventListener('mousemove', onMouseMove);
+    });
+
   }
 
   window.mapMainPin.addEventListener('mousedown', function (evt) {
@@ -145,6 +162,10 @@
     if (evt.keyCode === ENTER_KEYCODE) {
       activateApplication();
     }
+
+
   });
+
+
 
 })();

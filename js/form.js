@@ -8,8 +8,6 @@
   var PIN_END_HEIGHT = 22;
   var DEFAULT_PIN_X = 570;
   var DEFAULT_PIN_Y = 375;
-  var ESC_KEYCODE = 27;
-  var isActive = false;
   window.houseType = window.adForm.querySelector('#type');
   var priceInput = window.adForm.querySelector('#price');
   var roomNumber = window.adForm.querySelector('#room_number');
@@ -20,6 +18,7 @@
   var features = window.adForm.querySelector('.features');
   var featuresCheckboxes = features.querySelectorAll('input');
   var addressInput = window.adForm.querySelector('#address');
+  var isActive = false;
 
   // Заполнение поля адреса
 
@@ -202,6 +201,16 @@
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
     document.body.appendChild(successElement);
+
+    successElement.addEventListener('click', function () {
+      successElement.remove();
+    });
+
+    successElement.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.ESC_KEYCODE) {
+        successElement.remove();
+      }
+    });
   }
 
   function saveHandler() {
@@ -212,27 +221,6 @@
   window.adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.save(new FormData(window.adForm), saveHandler, window.errorHandler);
-  });
-
-  function closeModal(modalClass) {
-    if (document.querySelector(modalClass) !== null) {
-      var modal = document.querySelector(modalClass);
-      modal.addEventListener('click', function () {
-        modal.classList.add('hidden');
-      });
-    }
-  }
-
-  document.body.addEventListener('click', function () {
-    closeModal('.success');
-    closeModal('.error');
-  });
-
-  document.body.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closeModal('.success');
-      closeModal('.error');
-    }
   });
 
 })();
