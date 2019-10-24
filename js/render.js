@@ -38,10 +38,13 @@
 
   // Создание карточек
 
-  function makeOfferCard() {
+  function makeOfferCard(pinId) {
+    var offer = window.offers[pinId];
+    console.log(offer);
     var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var cardElement = cardTemplate.cloneNode(true);
     var mapElement = document.querySelector('.map__pins');
+    console.log(cardElement);
     mapElement.appendChild(cardElement);
 
     window.mapFilter.addEventListener('change', function () {

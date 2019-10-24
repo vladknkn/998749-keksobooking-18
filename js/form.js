@@ -206,8 +206,8 @@
       successElement.remove();
     });
 
-    successElement.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.ESC_KEYCODE) {
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.ESC_KEYCODE && successElement) {
         successElement.remove();
       }
     });
@@ -220,6 +220,7 @@
 
   window.adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
+    console.log(window.adForm);
     window.save(new FormData(window.adForm), saveHandler, window.errorHandler);
   });
 
