@@ -42,7 +42,7 @@
     xhr.timeout = 10000;
     console.log(data);
     xhr.open('POST', SAVE_URL);
-    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+    // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
     xhr.send(data);
   };
 })();

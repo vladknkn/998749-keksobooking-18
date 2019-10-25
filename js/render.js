@@ -39,10 +39,95 @@
   // Создание карточек
 
   function makeOfferCard(pinId) {
-    var offer = window.offers[pinId];
-    console.log(offer);
+    var advert = window.offers[pinId];
+    console.log(advert);
     var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var cardElement = cardTemplate.cloneNode(true);
+
+    var cardAvatar = cardElement.querySelector('img');
+    cardAvatar.src = advert.author.avatar;
+
+    var cardTitle = cardElement.querySelector('.popup__title');
+    cardTitle.innerText = advert.offer.title;
+
+    var cardAddress = cardElement.querySelector('.popup__text--address');
+    cardAddress.innerText = advert.offer.address;
+
+    var cardPrice = cardElement.querySelector('.popup__text--price');
+    cardPrice.innerText = advert.offer.price;
+
+    var cardDescription = cardElement.querySelector('.popup__description');
+    cardDescription.innerText = advert.offer.description;
+
+    var cardTime = cardElement.querySelector('.popup__text--time');
+    cardTime.innerText = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
+
+    var cardCapacity = cardElement.querySelector('.popup__text--capacity');
+    if (advert.offer.rooms !== 1) {
+      if (advert.offer.guests !== 1) {
+        cardCapacity.innerText = advert.offer.rooms + ' комнат для ' + advert.offer.guests + ' гостей';
+      } else {
+        cardCapacity.innerText = advert.offer.rooms + ' комнат для ' + advert.offer.guests + ' гостя';
+      }
+    } else {
+      if (advert.offer.guests !== 1) {
+        cardCapacity.innerText = advert.offer.rooms + ' комната для ' + advert.offer.guests + ' гостей';
+      } else {
+        cardCapacity.innerText = advert.offer.rooms + ' комната для ' + advert.offer.guests + ' гостя';
+      }
+    }
+
+    var cardFeatures = cardElement.querySelector('.popup__features');
+    var cardFeaturesElements = cardFeatures.querySelectorAll('.popup__feature');
+    for (var i = 0; i < cardFeaturesElements.length; i++) {
+      if (!advert.offer.features.includes('wifi') && cardFeaturesElements[i].classList.contains('popup__feature--wifi')) {
+        cardFeaturesElements[i].remove();
+      } else if (!advert.offer.features.includes('dishwasher') && cardFeaturesElements[i].classList.contains('popup__feature--dishwasher')) {
+        cardFeaturesElements[i].remove();
+      } else if (!advert.offer.features.includes('parking') && cardFeaturesElements[i].classList.contains('popup__feature--parking')) {
+        cardFeaturesElements[i].remove();
+      } else if (!advert.offer.features.includes('washer') && cardFeaturesElements[i].classList.contains('popup__feature--washer')) {
+        cardFeaturesElements[i].remove();
+      } else if (!advert.offer.features.includes('elevator') && cardFeaturesElements[i].classList.contains('popup__feature--elevator')) {
+        cardFeaturesElements[i].remove();
+      } else if (!advert.offer.features.includes('conditioner') && cardFeaturesElements[i].classList.contains('popup__feature--conditioner')) {
+        cardFeaturesElements[i].remove();
+      }
+    }
+
+    var cardType = cardElement.querySelector('.popup__type');
+    var offerType = advert.offer.type;
+    switch (offerType) {
+      case 'bungalo':
+        cardType.innerText = 'Бунгало';
+        break;
+      case 'flat':
+        cardType.innerText = 'Квартира';
+        break;
+      case 'house':
+        cardType.innerText = 'Дом';
+        break;
+      case 'palace':
+        cardType.innerText = 'Дворец';
+        break;
+    }
+
+    var cardPhotos = cardElement.querySelector('.popup__photos');
+    var photo = cardPhotos.querySelector('.popup__photo');
+    var offerPhotosArray = advert.offer.photos;
+    console.log(offerPhotosArray);
+    for (var j = 0; j <= offerPhotosArray.length; j++) {
+      if (offerPhotosArray.length > 1) {
+        var newPhoto = photo.cloneNode(true);
+        newPhoto.src = offerPhotosArray[i];
+        cardPhotos.appendChild(newPhoto);
+      } else if (offerPhotosArray.length === 1) {
+        photo.src = offerPhotosArray[0];
+      } else if (offerPhotosArray.length === 0) {
+        photo.remove();
+      }
+    }
+
     var mapElement = document.querySelector('.map__pins');
     console.log(cardElement);
     mapElement.appendChild(cardElement);
