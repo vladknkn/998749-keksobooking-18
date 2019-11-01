@@ -220,7 +220,6 @@
 
   window.adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    console.log(window.adForm);
     window.save(new FormData(window.adForm), saveHandler, window.errorHandler);
   });
 

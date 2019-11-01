@@ -9,7 +9,12 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
-        onLoad(xhr.response);
+        var response = xhr.response;
+        response = response.map(function (item, i) {
+          item.id = i;
+          return item;
+        });
+        onLoad(response);
       } else {
         onError();
       }
@@ -40,9 +45,7 @@
     });
 
     xhr.timeout = 10000;
-    console.log(data);
     xhr.open('POST', SAVE_URL);
-    // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
     xhr.send(data);
   };
 })();

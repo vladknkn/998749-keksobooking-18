@@ -5,8 +5,6 @@
 
   var ENTER_KEYCODE = 13;
   window.ESC_KEYCODE = 27;
-  var MIN_PIN_TOP = 130;
-  var MAX_PIN_TOP = 630;
   window.adForm = document.querySelector('.ad-form');
   window.mapMainPin = document.querySelector('.map__pin--main');
   window.mapFilter = document.querySelector('.map__filters');
@@ -20,18 +18,13 @@
   // Загрузка объявлений
 
   function filterHouseType() {
-    var newOffers = offers.slice();
+    var newOffers = window.offers.slice();
     var filteredOffers = newOffers.filter(function (element) {
       if (window.housingType.value !== 'any') {
         return element.offer.type === window.housingType.value;
       } else {
         return newOffers;
       }
-    });
-
-    filteredOffers = filteredOffers.map(function (offer, i) {
-      offer.id = i;
-      return offer;
     });
 
     return filteredOffers;
@@ -110,74 +103,7 @@
 
   // Функционал главного пина
 
-  // var inMap = false;
-
-  // function pinMoving(evt) {
-  //   var startCoords = {
-  //     x: evt.clientX,
-  //     y: evt.clientY
-  //   };
-
-  //   function onMouseMove(moveEvt) {
-  //     moveEvt.preventDefault();
-  //     console.log(moveEvt);
-  //     var shift = {
-  //       x: startCoords.x - moveEvt.clientX,
-  //       y: startCoords.y - moveEvt.clientY
-  //     };
-
-  //     startCoords = {
-  //       x: moveEvt.clientX,
-  //       y: moveEvt.clientY
-  //     };
-
-  //     // var yRelationMap = mapDialog.
-
-  //     var mapPinMainOffsetTop = window.mapMainPin.offsetTop;
-  //     var canMoveToTop = mapPinMainOffsetTop > MIN_PIN_TOP;
-  //     var canMoveToBottom = mapPinMainOffsetTop < MAX_PIN_TOP;
-  //     console.log(canMoveToTop);
-
-  //     if (inMap) {
-  //       if (!canMoveToTop /*&& canMoveToBottom*/) {
-  //         window.mapMainPin.style.top = MIN_PIN_TOP + 'px';
-  //       } else if (!canMoveToBottom) {
-  //         window.mapMainPin.style.top = MAX_PIN_TOP + 'px';
-  //       } else {
-  //         window.mapMainPin.style.top = (window.mapMainPin.offsetTop - shift.y) + 'px';
-  //       }
-
-  //       window.mapMainPin.style.left = (window.mapMainPin.offsetLeft - shift.x) + 'px';
-  //     }
-
-  //     // if (window.mapMainPin.style.left === '630px' || window.mapMainPin.style.left === '130px') {
-  //     //   document.removeEventListener('mousemove', onMouseMove);
-  //     // }
-
-  //   }
-
-  //   function onMouseUp(upEvt) {
-  //     upEvt.preventDefault();
-
-  //     document.removeEventListener('mousemove', onMouseMove);
-  //     document.removeEventListener('mouseup', onMouseUp);
-  //   }
-
-  //   document.addEventListener('mousemove', onMouseMove);
-  //   document.addEventListener('mouseup', onMouseUp);
-
-  //   mapDialog.addEventListener('mouseout', function () {
-  //     inMap = false;
-  //   });
-
-  //   mapDialog.addEventListener('mouseover', function () {
-  //     inMap = true;
-  //   });
-
-  // }
-
   function pinMoving() {
-
     var DragLimit = {
       X: {
         MIN: 100,
@@ -253,8 +179,6 @@
     if (evt.keyCode === ENTER_KEYCODE) {
       activateApplication();
     }
-
-
   });
 
 })();

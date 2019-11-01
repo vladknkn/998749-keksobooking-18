@@ -38,11 +38,20 @@
 
   // Создание карточек
 
+  function clearAllCards() {
+    document.querySelectorAll('.map__card--copy').forEach(function (el) {
+      el.remove();
+    });
+  }
+
   function makeOfferCard(pinId) {
+    clearAllCards();
+
     var advert = window.offers[pinId];
-    console.log(advert);
     var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var cardElement = cardTemplate.cloneNode(true);
+
+    cardElement.classList.add('map__card--copy');
 
     var cardAvatar = cardElement.querySelector('img');
     cardAvatar.src = advert.author.avatar;
@@ -115,21 +124,16 @@
     var cardPhotos = cardElement.querySelector('.popup__photos');
     var photo = cardPhotos.querySelector('.popup__photo');
     var offerPhotosArray = advert.offer.photos;
-    console.log(offerPhotosArray);
-    for (var j = 0; j <= offerPhotosArray.length; j++) {
-      if (offerPhotosArray.length > 1) {
-        var newPhoto = photo.cloneNode(true);
-        newPhoto.src = offerPhotosArray[i];
-        cardPhotos.appendChild(newPhoto);
-      } else if (offerPhotosArray.length === 1) {
-        photo.src = offerPhotosArray[0];
-      } else if (offerPhotosArray.length === 0) {
-        photo.remove();
-      }
+    var photoTemplate = photo.cloneNode(true);
+    photo.remove();
+
+    for (var j = 0; j < offerPhotosArray.length; j++) {
+      var photoElement = photoTemplate.cloneNode(true);
+      photoElement.src = offerPhotosArray[j];
+      cardPhotos.appendChild(photoElement);
     }
 
     var mapElement = document.querySelector('.map__pins');
-    console.log(cardElement);
     mapElement.appendChild(cardElement);
 
     window.mapFilter.addEventListener('change', function () {
