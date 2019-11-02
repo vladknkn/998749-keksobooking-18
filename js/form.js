@@ -56,10 +56,17 @@
         priceInput.min = 10000;
         priceInput.placeholder = 10000;
         break;
-      default:
+      case 'bungalo':
+        priceInput.min = 0;
         priceInput.placeholder = 0;
+        break;
+      default:
+        priceInput.min = 1000;
+        priceInput.placeholder = 1000;
     }
   }
+
+  setMinPrices();
 
   window.houseType.addEventListener('change', function () {
     setMinPrices();
@@ -215,6 +222,7 @@
 
   function saveHandler() {
     showSuccessMessage();
+    toReset();
     window.deactivateApplication();
   }
 

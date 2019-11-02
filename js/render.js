@@ -139,6 +139,18 @@
     window.mapFilter.addEventListener('change', function () {
       cardElement.remove();
     });
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.ESC_KEYCODE && cardElement) {
+        cardElement.remove();
+      }
+    });
+
+    var popupClose = cardElement.querySelector('.popup__close');
+    popupClose.addEventListener('click', function () {
+      cardElement.remove();
+    });
   }
+
 
 })();
