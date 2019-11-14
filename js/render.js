@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   window.mapPinsList = document.querySelector('.map__pins');
+  var MAX_PINS_VALUE = 5;
 
   function getPin(offer) {
     var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -23,7 +24,7 @@
 
     var fragment = document.createDocumentFragment();
     if (window.housingType.value === 'any') {
-      for (var i = 0; i < 5; i++) {
+      for (var i = 0; i < MAX_PINS_VALUE; i++) {
         fragment.appendChild(getPin(offersArray[i]));
       }
     } else {

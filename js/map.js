@@ -8,7 +8,8 @@
   window.adForm = document.querySelector('.ad-form');
   window.mapMainPin = document.querySelector('.map__pin--main');
   window.mapFilter = document.querySelector('.map__filters');
-  window.housingType = document.querySelector('#housing-type');
+  window.housingType = window.mapFilter.querySelector('#housing-type');
+  window.priceType = window.mapFilter.querySelector('#housing-price');
   var fieldsets = window.adForm.querySelectorAll('fieldset');
   var mapFilterSelects = window.mapFilter.querySelectorAll('select');
   var mapDialog = document.querySelector('.map');
@@ -30,6 +31,19 @@
     return filteredOffers;
   }
 
+  function filterPriceType() {
+    var newOffers = window.offers.slice();
+    var filteredOffers = newOffers.filter(function (element) {
+      if (window.priceType.value !== 'any') {
+        return element.offer.type === window.priceType.value;
+      } else {
+        return newOffers;
+      }
+    });
+
+    return filteredOffers;
+  }
+
   function updateOffers() {
     var filteredOffersArray = filterHouseType();
     window.renderPins(filteredOffersArray);
@@ -37,6 +51,7 @@
 
   function loadHandler(data) {
     window.offers = data;
+    console.log('window.offers', window.offers);
 
     updateOffers();
   }
