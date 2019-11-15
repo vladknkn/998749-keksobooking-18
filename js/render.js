@@ -23,7 +23,7 @@
   window.renderPins = function (offersArray) {
 
     var fragment = document.createDocumentFragment();
-    if (window.housingType.value === 'any') {
+    if (window.housingType.value === 'any' || window.priceType.value === 'any' || window.roomsValue === 'any' || window.guestValue === 'any' || window.checkedFeatures === false) {
       for (var i = 0; i < MAX_PINS_VALUE; i++) {
         fragment.appendChild(getPin(offersArray[i]));
       }
