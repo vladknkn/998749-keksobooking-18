@@ -21,16 +21,9 @@
   }
 
   window.renderPins = function (offersArray) {
-
     var fragment = document.createDocumentFragment();
-    if (window.housingType.value === 'any' || window.priceType.value === 'any' || window.roomsValue === 'any' || window.guestValue === 'any' || window.checkedFeatures === false) {
-      for (var i = 0; i < MAX_PINS_VALUE; i++) {
-        fragment.appendChild(getPin(offersArray[i]));
-      }
-    } else {
-      for (i = 0; i < offersArray.length; i++) {
-        fragment.appendChild(getPin(offersArray[i]));
-      }
+    for (var i = 0; i < offersArray.length && i < MAX_PINS_VALUE; i++) {
+      fragment.appendChild(getPin(offersArray[i]));
     }
     window.mapPinsList.innerHTML = '';
     window.mapPinsList.appendChild(window.mapMainPin);
@@ -73,35 +66,39 @@
     cardTime.innerText = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
 
     var cardCapacity = cardElement.querySelector('.popup__text--capacity');
-    if (advert.offer.rooms !== 1) {
-      if (advert.offer.guests !== 1) {
-        cardCapacity.innerText = advert.offer.rooms + ' комнат для ' + advert.offer.guests + ' гостей';
+    var advertOfferRooms = advert.offer.rooms;
+    var advertOfferGuests = advert.offer.guests;
+    if (advertOfferRooms !== 1) {
+      if (advertOfferGuests !== 1) {
+        cardCapacity.innerText = advertOfferRooms + ' комнат для ' + advertOfferGuests + ' гостей';
       } else {
-        cardCapacity.innerText = advert.offer.rooms + ' комнат для ' + advert.offer.guests + ' гостя';
+        cardCapacity.innerText = advertOfferRooms + ' комнат для ' + advertOfferGuests + ' гостя';
       }
     } else {
-      if (advert.offer.guests !== 1) {
-        cardCapacity.innerText = advert.offer.rooms + ' комната для ' + advert.offer.guests + ' гостей';
+      if (advertOfferGuests !== 1) {
+        cardCapacity.innerText = advertOfferRooms + ' комната для ' + advertOfferGuests + ' гостей';
       } else {
-        cardCapacity.innerText = advert.offer.rooms + ' комната для ' + advert.offer.guests + ' гостя';
+        cardCapacity.innerText = advertOfferRooms + ' комната для ' + advertOfferGuests + ' гостя';
       }
     }
 
     var cardFeatures = cardElement.querySelector('.popup__features');
     var cardFeaturesElements = cardFeatures.querySelectorAll('.popup__feature');
     for (var i = 0; i < cardFeaturesElements.length; i++) {
-      if (!advert.offer.features.includes('wifi') && cardFeaturesElements[i].classList.contains('popup__feature--wifi')) {
-        cardFeaturesElements[i].remove();
-      } else if (!advert.offer.features.includes('dishwasher') && cardFeaturesElements[i].classList.contains('popup__feature--dishwasher')) {
-        cardFeaturesElements[i].remove();
-      } else if (!advert.offer.features.includes('parking') && cardFeaturesElements[i].classList.contains('popup__feature--parking')) {
-        cardFeaturesElements[i].remove();
-      } else if (!advert.offer.features.includes('washer') && cardFeaturesElements[i].classList.contains('popup__feature--washer')) {
-        cardFeaturesElements[i].remove();
-      } else if (!advert.offer.features.includes('elevator') && cardFeaturesElements[i].classList.contains('popup__feature--elevator')) {
-        cardFeaturesElements[i].remove();
-      } else if (!advert.offer.features.includes('conditioner') && cardFeaturesElements[i].classList.contains('popup__feature--conditioner')) {
-        cardFeaturesElements[i].remove();
+      var advertOfferFeatures = advert.offer.features;
+      var currentCardFeaturesElement = cardFeaturesElements[i];
+      if (!advertOfferFeatures.includes('wifi') && currentCardFeaturesElement.classList.contains('popup__feature--wifi')) {
+        currentCardFeaturesElement.remove();
+      } else if (!advertOfferFeatures.includes('dishwasher') && currentCardFeaturesElement.classList.contains('popup__feature--dishwasher')) {
+        currentCardFeaturesElement.remove();
+      } else if (!advertOfferFeatures.includes('parking') && currentCardFeaturesElement.classList.contains('popup__feature--parking')) {
+        currentCardFeaturesElement.remove();
+      } else if (!advertOfferFeatures.includes('washer') && currentCardFeaturesElement.classList.contains('popup__feature--washer')) {
+        currentCardFeaturesElement.remove();
+      } else if (!advertOfferFeatures.includes('elevator') && currentCardFeaturesElement.classList.contains('popup__feature--elevator')) {
+        currentCardFeaturesElement.remove();
+      } else if (!advertOfferFeatures.includes('conditioner') && currentCardFeaturesElement.classList.contains('popup__feature--conditioner')) {
+        currentCardFeaturesElement.remove();
       }
     }
 

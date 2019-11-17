@@ -16,12 +16,12 @@
   window.adForm = document.querySelector('.ad-form');
   window.mapMainPin = document.querySelector('.map__pin--main');
   window.mapFilter = document.querySelector('.map__filters');
-  window.housingType = window.mapFilter.querySelector('#housing-type');
-  window.priceType = window.mapFilter.querySelector('#housing-price');
-  window.roomsValue = window.mapFilter.querySelector('#housing-rooms');
-  window.guestValue = window.mapFilter.querySelector('#housing-guests');
+  var housingType = window.mapFilter.querySelector('#housing-type');
+  var priceType = window.mapFilter.querySelector('#housing-price');
+  var roomsValue = window.mapFilter.querySelector('#housing-rooms');
+  var guestValue = window.mapFilter.querySelector('#housing-guests');
   var featuresFilter = window.mapFilter.querySelector('#housing-features');
-  window.checkedFeatures = featuresFilter.querySelectorAll('input:checked');
+  var checkedFeatures = featuresFilter.querySelectorAll('input:checked');
   var fieldsets = window.adForm.querySelectorAll('fieldset');
   var mapFilterSelects = window.mapFilter.querySelectorAll('select');
   var mapDialog = document.querySelector('.map');
@@ -32,64 +32,64 @@
   // Фильтрация объявлений
 
   function filterHouseType(element) {
-    return element.offer.type === window.housingType.value ? true : window.housingType.value === 'any';
+    return element.offer.type === housingType.value || housingType.value === 'any';
   }
 
   function filterPriceValue(element) {
-    if (window.priceType.value === 'any') {
+    if (priceType.value === 'any') {
       return true;
     }
     if (element.offer.price < price.LOW) {
-      return window.priceType.value === 'low';
+      return priceType.value === 'low';
     }
     if (element.offer.price >= price.MIDDLE.MIN && element.offer.price <= price.MIDDLE.MAX) {
-      return window.priceType.value === 'middle';
+      return priceType.value === 'middle';
     }
     if (element.offer.price > price.HIGH) {
-      return window.priceType.value === 'high';
+      return priceType.value === 'high';
     }
 
     return false;
   }
 
   function filterRoomsValue(element) {
-    return element.offer.rooms === parseInt(window.roomsValue.value, 10) ? true : window.roomsValue.value === 'any';
+    return element.offer.rooms === parseInt(roomsValue.value, 10) || roomsValue.value === 'any';
   }
 
   function filterGuestsValue(element) {
-    if (window.guestValue.value === 'any') {
+    if (guestValue.value === 'any') {
       return true;
     }
-    if (parseInt(window.guestValue.value, 10) !== 0 || parseInt(window.guestValue.value, 10) === 0) {
-      return element.offer.guests === parseInt(window.guestValue.value, 10);
+    if (parseInt(guestValue.value, 10) !== 0 || parseInt(guestValue.value, 10) === 0) {
+      return element.offer.guests === parseInt(guestValue.value, 10);
     }
 
     return false;
   }
 
   function filterFeatures(offerElement) {
-    return Array.from(window.checkedFeatures).every(function (element) {
+    return Array.from(checkedFeatures).every(function (element) {
       return offerElement.offer.features.includes(element.value);
     });
   }
 
   function getFilteredOffers() {
     var newOffers = window.offers.slice();
-    filteredOffers = newOffers
-    .filter(filterHouseType)
-    .filter(filterPriceValue)
-    .filter(filterRoomsValue)
-    .filter(filterGuestsValue)
-    .filter(filterFeatures);
+    filteredOffers = newOffers.filter(function (item) {
+      return filterHouseType(item) &&
+              filterPriceValue(item) &&
+              filterRoomsValue(item) &&
+              filterGuestsValue(item) &&
+              filterFeatures(item);
+    });
 
     return filteredOffers;
   }
 
-
   // Загрузка объявлений
 
   function updateOffers() {
-    getFilteredOffers();
+    filteredOffers = getFilteredOffers();
     window.renderPins(filteredOffers);
   }
 

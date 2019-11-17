@@ -99,26 +99,28 @@
     var capacity = window.adForm.querySelector('#capacity');
     var capacityOptions = capacity.querySelectorAll('option');
     for (var i = 0; i < capacityOptions.length; i++) {
-      if (roomNumber.value === '1' && capacityOptions[i].value !== '1') {
-        capacityOptions[i].setAttribute('disabled', 'disabled');
+      var roomNumberValue = roomNumber.value;
+      var currentCapacityOptions = capacityOptions[i];
+      if (roomNumberValue === '1' && currentCapacityOptions.value !== '1') {
+        currentCapacityOptions.setAttribute('disabled', 'disabled');
         capacityOptions[2].selected = true;
-      } else if (roomNumber.value === '2' && capacityOptions[i].value !== '1' && capacityOptions[i].value !== '2') {
-        capacityOptions[i].setAttribute('disabled', 'disabled');
+      } else if (roomNumberValue === '2' && currentCapacityOptions.value !== '1' && currentCapacityOptions.value !== '2') {
+        currentCapacityOptions.setAttribute('disabled', 'disabled');
         capacityOptions[1].selected = true;
-      } else if (roomNumber.value === '3' && capacityOptions[i].value === '0') {
-        capacityOptions[i].setAttribute('disabled', 'disabled');
+      } else if (roomNumberValue === '3' && currentCapacityOptions.value === '0') {
+        currentCapacityOptions.setAttribute('disabled', 'disabled');
         capacityOptions[0].selected = true;
-      } else if (roomNumber.value === '100' && capacityOptions[i].value !== '0') {
-        capacityOptions[i].setAttribute('disabled', 'disabled');
+      } else if (roomNumberValue === '100' && currentCapacityOptions.value !== '0') {
+        currentCapacityOptions.setAttribute('disabled', 'disabled');
         capacityOptions[3].selected = true;
-      } else if (roomNumber.value === '1' && capacityOptions[i].value === '1') {
-        capacityOptions[i].removeAttribute('disabled');
-      } else if (roomNumber.value === '2' && capacityOptions[i].value === '1' || capacityOptions[i].value === '2') {
-        capacityOptions[i].removeAttribute('disabled');
-      } else if (roomNumber.value === '3' && capacityOptions[i].value !== '0') {
-        capacityOptions[i].removeAttribute('disabled');
-      } else if (roomNumber.value === '100' && capacityOptions[i].value === '0') {
-        capacityOptions[i].removeAttribute('disabled');
+      } else if (roomNumberValue === '1' && currentCapacityOptions.value === '1') {
+        currentCapacityOptions.removeAttribute('disabled');
+      } else if (roomNumberValue === '2' && currentCapacityOptions.value === '1' || currentCapacityOptions.value === '2') {
+        currentCapacityOptions.removeAttribute('disabled');
+      } else if (roomNumberValue === '3' && currentCapacityOptions.value !== '0') {
+        currentCapacityOptions.removeAttribute('disabled');
+      } else if (roomNumberValue === '100' && currentCapacityOptions === '0') {
+        currentCapacityOptions.removeAttribute('disabled');
       }
     }
   }
